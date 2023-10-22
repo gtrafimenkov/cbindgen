@@ -24,11 +24,11 @@ indexmap = "1"
 log = "0.4"
 serde = { version = "1.0.103", default-features = false, features = ["derive"] }
 serde_json = "1.0"
-tempfile = "3"
 toml = "0.5"
 proc-macro2 = "1.0.60"
 quote = "1"
 heck = "0.4"
+ggstd = { git = "https://github.com/gtrafimenkov/rust-ggstd.git", branch="dev" }
 
 [dependencies.syn]
 version = "1.0.88"

@@ -1,6 +1,7 @@
 extern crate cbindgen;
 
 use cbindgen::*;
+use ggstd::os::{TempDir, TempFile};
 use std::collections::HashSet;
 use std::fs::File;
 use std::io::Read;
@@ -37,8 +38,8 @@ fn run_cbindgen(
         command.arg("--output").arg(output);
     }
     let cbindgen_depfile = if generate_depfile {
-        let depfile = tempfile::NamedTempFile::new().unwrap();
-        command.arg("--depfile").arg(depfile.path());
+        let depfile = TempFile::new("depfile").unwrap();
+        command.arg("--depfile").arg(&depfile.path);
         Some(depfile)
     } else {
         None
@@ -92,7 +93,7 @@ fn run_cbindgen(
 
     let depfile_contents = if let Some(mut depfile) = cbindgen_depfile {
         let mut raw = Vec::new();
-        depfile.read_to_end(&mut raw).unwrap();
+        depfile.f.read_to_end(&mut raw).unwrap();
         Some(
             str::from_utf8(raw.as_slice())
                 .expect("Invalid encoding encountered in depfile")
@@ -311,11 +312,8 @@ fn run_compile_test(
 
 fn test_file(name: &'static str, filename: &'static str) {
     let test = Path::new(filename);
-    let tmp_dir = tempfile::Builder::new()
-        .prefix("cbindgen-test-output")
-        .tempdir()
-        .expect("Creating tmp dir failed");
-    let tmp_dir = tmp_dir.path();
+    let tmp_dir = TempDir::new("cbindgen-test-output-").expect("Creating tmp dir failed");
+    let tmp_dir = &tmp_dir.path;
     // Run tests in deduplication priority order. C++ compatibility tests are run first,
     // otherwise we would lose the C++ compiler run if they were deduplicated.
     let mut cbindgen_outputs = HashSet::new();

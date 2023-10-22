@@ -30,6 +30,7 @@ name = "cbindgen"
 version = "0.26.0"
 dependencies = [
  "clap",
+ "ggstd",
  "heck",
  "indexmap",
  "log",
@@ -39,7 +40,6 @@ dependencies = [
  "serde_json",
  "serial_test",
  "syn 1.0.109",
- "tempfile",
  "toml",
 ]
 
@@ -74,13 +74,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "fastrand"
-version = "1.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e51093e27b0797c359783294ca4f0a911c270184cb10f85783b118614a1501be"
-dependencies = [
- "instant",
-]
+name = "ggstd"
+version = "0.0.6"
+source = "git+https://github.com/gtrafimenkov/rust-ggstd.git?branch=dev#f124aa64a50e4bd815ab06638246dcd349ade2ac"
 
 [[package]]
 name = "hashbrown"
@@ -218,15 +214,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "remove_dir_all"
-version = "0.5.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3acd125665422973a33ac9d3dd2df85edad0f4ae9b00dafb1a05e43a9f5ef8e7"
-dependencies = [
- "winapi",
-]
-
-[[package]]
 name = "ryu"
 version = "1.0.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -323,20 +310,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
-]
-
-[[package]]
-name = "tempfile"
-version = "3.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5cdb1ef4eaeeaddc8fbd371e5017057064af0911902ef36b39801f67cc6d79e4"
-dependencies = [
- "cfg-if",
- "fastrand",
- "libc",
- "redox_syscall",
- "remove_dir_all",
- "winapi",
 ]
 
 [[package]]

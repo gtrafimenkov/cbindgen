@@ -11,9 +11,6 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::str::{from_utf8, Utf8Error};
 
-extern crate tempfile;
-use self::tempfile::Builder;
-
 #[derive(Debug)]
 /// Possible errors that can occur during `rustc -Zunpretty=expanded`.
 pub enum Error {
@@ -74,8 +71,8 @@ pub fn expand(
 
     let mut _temp_dir = None; // drop guard
     if use_tempdir {
-        _temp_dir = Some(Builder::new().prefix("cbindgen-expand").tempdir()?);
-        cmd.env("CARGO_TARGET_DIR", _temp_dir.unwrap().path());
+        _temp_dir = Some(ggstd::os::TempDir::new("cbindgen-expand")?);
+        cmd.env("CARGO_TARGET_DIR", &_temp_dir.as_ref().unwrap().path);
     } else if let Ok(ref path) = env::var("CARGO_EXPAND_TARGET_DIR") {
         cmd.env("CARGO_TARGET_DIR", path);
     } else if let Ok(ref path) = env::var("OUT_DIR") {
